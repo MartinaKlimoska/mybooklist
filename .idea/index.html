@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        displayList();
+
+        function search(searchQuery, list) {
+            if(searchQuery == "")
+                displayList();
+            else {
+                searchQuery = searchQuery.toLowerCase()
+                console.log(searchQuery)
+                return list.filter(book => {
+                    if(book["author"].toLowerCase().includes(searchQuery) ||
+                       book["title"].toLowerCase().includes(searchQuery) ||
+                       book["genre"].toLowerCase().includes(searchQuery))
+                        return true;
+                    else
+                        return false;
+                });
+            }
+        }
+
+        function sort(list) {
+            return list.sort(function(a, b){
+                let x = a.author.toLowerCase();
+                let y = b.author.toLowerCase();
+                if (x < y) {return -1;}
+                if (x > y) {return 1;}
+                return 0;
+            })
+        }
+
+        function displaySearch() {
+            $.getJSON('listofbooks.json', function(data) {
+                let bookList = data;
+                bookList = sort(search(document.getElementById("search").value, bookList));
+                let node = document.getElementsByClassName("table__body").item(0);
+                node.innerHTML = '';
+                if (bookList.length >= 1) {
+                    bookList.forEach(book => {
+                        let author = book.author;
+                        let title = book.title;
+                        let genre = book.genre;
+                        let node = document.getElementsByClassName("table__body").item(0);
+                        let html = "<tr class='table__tr'><td class='table__td'>" + author + "</td><td class='table__td'>" + title + "</td><td class='table__td'>" + genre + "</td></tr>";
+                        node.innerHTML += html;
+                    });
+                } else {
+                    let node = document.getElementsByClassName("table__body").item(0)
+                    node.innerHTML += "<p align='center'>No results found</p>";
+                }
+            });
+        }
+
+        function displayList() {
+            $.getJSON('listofbooks.json', function(data) {
+                let bookList = data;
+                let node = document.getElementsByClassName("table__body").item(0);
+                node.innerHTML = '';
+                bookList = sort(bookList);
+                bookList.forEach(book => {
+                    let author = book.author;
+                    let title = book.title;
+                    let genre = book.genre;
+                    let node = document.getElementsByClassName("table__body").item(0);
+                    let html = "<tr class='table__tr'><td class='table__td'>" + author + "</td><td class='table__td'>" + title + "</td><td class='table__td'>" + genre + "</td></tr>";
+                    node.innerHTML += html;
+                });
+            });
+        }
+
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+<div class="inner">
+    <script>
+    </script>
+    <h2>List of Books</h2>
+
+    <div>
+        <input type="text" id="search" class="search" placeholder="Search...">
+        <input type="button" class="submit" value="Search" onclick="displaySearch()">
+    </div>
+    <br>
+    <table class="table">
+        <thead class="table__thead">
+        <tr>
+            <th class="table__th">Author</th>
+            <th class="table__th">Title</th>
+            <th class="table__th">Genre</th>
+        </tr>
+        </thead>
+        <tbody class="table__body">
+        <!-- <tr class="table__tr">
+            <td class="table__td"></td>
+            <td class="table__td"></td>
+            <td class="table__td"></td>
+            </tr> -->
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+.inner{
+    max-width: 100%;
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.search {
+    width: 75%;
+}
+
+.submit {
+    width: 70px;
+    background-color: #d6eeee;
+    color: #ffffff;
+}
+
+.table{
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border: 3px solid #000000;
+    table-layout: fixed;
+}
+
+.table__thead{
+    background-color: #aadbdb;
+}
+
+.table__tr:nth-child(even){
+    background-color: #d6eeee;
+}
+
+.table__th,
+.table__td{
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ffffff;
+}
+
+.table__th{
+    padding: 16px;
+}
